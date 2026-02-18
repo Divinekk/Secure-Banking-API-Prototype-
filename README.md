@@ -21,13 +21,13 @@ This project bridges cybersecurity research and practical backend implementation
 
 ## ✨ Key Features
 
-- 🔑 Secure User Registration (BCrypt hashing, cost factor 12)  
-- 🔐 JWT Authentication (HS256, 24-hour expiration)  
-- 🛡️ BOLA Protection (users access only their own accounts)  
-- 💰 Bank Account Management  
-- 🔒 AES-256-GCM Encryption for balances at rest  
-- 📊 Clean API error responses via GlobalExceptionHandler  
-- 🧪 Unit & Integration Testing (40%+ coverage)  
+-  Secure User Registration (BCrypt hashing, cost factor 12)  
+- JWT Authentication (HS256, 24-hour expiration)  
+- BOLA Protection (users access only their own accounts)  
+- Bank Account Management  
+- AES-256-GCM Encryption for balances at rest  
+- Clean API error responses via GlobalExceptionHandler  
+- Unit & Integration Testing (40%+ coverage)  
 
 ---
 
