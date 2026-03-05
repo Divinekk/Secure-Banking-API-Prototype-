@@ -128,7 +128,8 @@ erDiagram
         bigint id PK
         varchar email UK "NOT NULL, UNIQUE"
         varchar password_hash "BCrypt hashed"
-        varchar full_name
+        varchar firstname
+        varchar lastname
         varchar role "DEFAULT USER"
         timestamp created_at
     }
