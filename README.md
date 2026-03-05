@@ -120,7 +120,7 @@ GET /api/accounts/my-accounts
 ---
 
 ## 📊 Database Schema
-```mermaid
+````mermaid
 erDiagram
     USERS ||--o{ BANK_ACCOUNTS : owns
     
@@ -128,20 +128,51 @@ erDiagram
         bigint id PK
         varchar email UK "NOT NULL, UNIQUE"
         varchar password_hash "BCrypt hashed"
-        varchar firstname
-        varchar lastname
+        varchar full_name
         varchar role "DEFAULT USER"
         timestamp created_at
     }
     
     BANK_ACCOUNTS {
         bigint id PK
-        bigint owner_id FK
-        varchar account_number UK "NOT NULL, UNIQUE"
-        varbinary balance "AES-256-GCM encrypted"
-        timestamp created_at
+        bigint user_id FK "NOT NULL"
+        varchar account_number UK "UNIQUE, 10 chars"
+        text balance "AES-256-GCM encrypted"
+        datetime created_at "NOT NULL, updatable=false"
     }
-```
+````
+
+### Field Details
+
+**BankAccount Fields:**
+- `id` - Auto-generated primary key (MySQL AUTO_INCREMENT)
+- `user_id` - Foreign key to users table (created by @JoinColumn)
+- `account_number` - 10-character unique identifier (VARCHAR(10))
+- `balance` - AES-256-GCM encrypted BigDecimal stored as TEXT
+- `created_at` - Account creation timestamp (immutable)
+
+### Key Design Decisions
+
+**ManyToOne Relationship:**
+- One user can have multiple bank accounts (savings, checking, etc.)
+- Lazy loading prevents unnecessary user data fetches
+- Foreign key: `user_id` references `users(id)`
+
+**Encryption:**
+- Balance encrypted using `@Convert(converter = BalanceEncryptor.class)`
+- Stored as TEXT (encrypted bytes converted to Base64)
+- Automatically encrypted on save, decrypted on load
+- Even with database breach, balances remain secure
+
+**BigDecimal for Money:**
+- Exact decimal arithmetic (no floating-point errors)
+- Essential for financial accuracy
+- Prevents rounding issues that cause real money loss
+
+**Constraints:**
+- Unique account numbers (no duplicates)
+- NOT NULL on critical fields (user_id, balance, created_at)
+- `updatable = false` on created_at (immutable timestamp)
 
 ### Key Design Decisions
 
