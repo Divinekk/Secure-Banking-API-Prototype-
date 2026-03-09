@@ -79,7 +79,32 @@ JPA → Hibernate → MySQL
 
 ---
 ### Security Flow
-![System Architecture](IMG_1989.png)
+
+```mermaid
+flowchart TD
+  A(["LOGIN ATTEMPT"]):::start
+  B["Enter Username & Password"]:::box
+  C{Valid?}:::decision
+  D(["LOGIN FAILED"]):::fail
+  E["Hash Password with BCrypt"]:::box
+  F["Verify Against Database"]:::box
+  G["Generate JWT Token"]:::box
+  H(["AUTHENTICATION GRANTED"]):::success
+  I["Spring Security Validates JWT"]:::box
+  J["BOLA Protection Check"]:::box
+  K["Authorization Check"]:::box
+  L(["ACCESS PROTECTED ENDPOINT"]):::start
+
+  A --> B --> C
+  C -->|No| D
+  C -->|Yes| E --> F --> G --> H --> I --> J --> K --> L
+
+  classDef start fill:#0e1a22,stroke:#06b6d4,stroke-width:2px,color:#e2e8f0
+  classDef box fill:#090d10,stroke:#0e7490,stroke-width:1.5px,color:#cbd5e1
+  classDef decision fill:#0e1620,stroke:#6366f1,stroke-width:1.5px,color:#e2e8f0
+  classDef success fill:#0a1f14,stroke:#14b8a6,stroke-width:2px,color:#e2e8f0
+  classDef fail fill:#1a0a0a,stroke:#ef4444,stroke-width:2px,color:#fca5a5
+```
 
 ## 🚀 Getting Started
 
@@ -120,7 +145,7 @@ GET /api/accounts/my-accounts
 ---
 
 ## 📊 Database Schema
-````mermaid
+```mermaid
 erDiagram
     USERS ||--o{ BANK_ACCOUNTS : owns
     
@@ -141,7 +166,7 @@ erDiagram
         text balance "AES-256-GCM encrypted"
         datetime createdAt "NOT NULL, updatable=false"
     }
-````
+```
 
 ### Field Details
 
@@ -225,4 +250,4 @@ Includes:
 - No rate limiting  
 - No role-based authorization yet  
 - Key management not production-grade  
-- No monitoring/log aggregation  
+- No monitoring/log aggregation
