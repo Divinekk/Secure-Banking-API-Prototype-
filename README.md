@@ -22,7 +22,7 @@ This project bridges cybersecurity research and practical backend implementation
 ## ✨ Key Features
 
 -  Secure User Registration (BCrypt hashing, cost factor 12)  
-- JWT Authentication (HS256, 24-hour expiration)  
+- JWT Authentication (HS256)  
 - BOLA Protection (users access only their own accounts)  
 - Bank Account Management  
 - AES-256-GCM Encryption for balances at rest  
